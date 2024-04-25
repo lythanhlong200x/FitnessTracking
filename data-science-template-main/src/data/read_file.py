@@ -8,7 +8,7 @@ from datetime import timedelta
 # Read single CSV file
 # --------------------------------------------------------------
 # single_file_acc = pd.read_csv(
-#     "C:\\Users\\Suirad\\Downloads\\data-science-template-main\\data-science-template-main\\data\\raw\MetaMotion\\A-bench-heavy2-rpe8_MetaWear_2019-01-11T16.10.08.270_C42732BE255C_Accelerometer_12.500Hz_1.4.4.csv"
+#     "C:\\Users\\Suirad\\Documents\\Zalo Received Files\\2024-04-1519.02.25.csv"
 # )
 # --------------------------------------------------------------
 # List all data in data/raw/MetaMotion
@@ -52,8 +52,8 @@ from datetime import timedelta
 # --------------------------------------------------------------
 # Turn into function
 # --------------------------------------------------------------
-files = glob("../../data/raw/TestingData/*.csv")
-data_path = "../../data/raw/TestingData\\"
+files = glob("../../data/raw/dataraw/*.csv")
+data_path = "../../data/raw/dataraw\\"
 
 
 def read_data_drom_files(files):
@@ -104,11 +104,11 @@ def read_data_drom_files(files):
     gyr_df.set_index("epoch (ms)", inplace=True)
 
     del acc_df["Time (s)"]
-    del acc_df["Absolute acceleration (m/s^2)"]
+    # del acc_df["Absolute acceleration (m/s^2)"]
     # del acc_df["elapsed (s)"]
 
     del gyr_df["Time (s)"]
-    del gyr_df["Absolute (rad/s)"]
+    # del gyr_df["Absolute (rad/s)"]
     # del gyr_df["elapsed (s)"]
     return acc_df, gyr_df
 
@@ -122,9 +122,9 @@ acc_df, gyr_df = read_data_drom_files(files)
 
 data_merged = pd.concat([acc_df.iloc[:, :3], gyr_df], axis=1)
 column_mapping = {
-    "Linear Acceleration x (m/s^2)": "acc_x",
-    "Linear Acceleration y (m/s^2)": "acc_y",
-    "Linear Acceleration z (m/s^2)": "acc_z",
+    "Acceleration x (m/s^2)": "acc_x",
+    "Acceleration y (m/s^2)": "acc_y",
+    "Acceleration z (m/s^2)": "acc_z",
     "Gyroscope x (rad/s)": "gyr_x",
     "Gyroscope y (rad/s)": "gyr_y",
     "Gyroscope z (rad/s)": "gyr_z",
@@ -155,11 +155,11 @@ sampling = {
 
 data_merged.columns
 data_merged[:10000].resample(rule="200ms").apply(sampling)
-
 days = [g for n, g in data_merged.groupby(pd.Grouper(freq="D"))]
 data_resampled = pd.concat(
-    [df.resample(rule="200ms").apply(sampling).dropna() for df in days]
+    [df.resample(rule="100ms").apply(sampling).dropna() for df in days]
 )
+
 
 # Accelerometer:    12.500HZ
 # Gyroscope:        25.000Hz
@@ -168,6 +168,6 @@ data_resampled["set"] = data_resampled["set"].astype("int")
 # --------------------------------------------------------------
 # Export dataset
 # --------------------------------------------------------------
-data_resampled.to_pickle("../../data/interim/1704_data_real_processed.pkl")
+data_resampled.to_pickle("../../data/interim/2504_data_real_processed.pkl")
 
 # Lấy thời gian sửa đổi của tệp

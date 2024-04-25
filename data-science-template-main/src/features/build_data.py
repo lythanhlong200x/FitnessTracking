@@ -10,7 +10,7 @@ from sklearn.cluster import KMeans
 # --------------------------------------------------------------
 # Load data
 # --------------------------------------------------------------
-df = pd.read_pickle("../../data/interim/1704_data_real_processed.pkl")
+df = pd.read_pickle("../../data/interim/2504_data_real_processed.pkl")
 predictor_columns = list(df.columns[:6])
 # plot settings
 plt.style.use("fivethirtyeight")
@@ -71,11 +71,11 @@ df_pca = df_lowpass.copy()
 PCA = PrincipalComponentAnalysis()
 pc_values = PCA.determine_pc_explained_variance(df_pca, predictor_columns)
 
-plt.figure(figsize=(10, 10))
-plt.plot(range(1, len(predictor_columns) + 1), pc_values)
-plt.xlabel("principal component number")
-plt.ylabel("explained variance")
-plt.show()
+# plt.figure(figsize=(10, 10))
+# plt.plot(range(1, len(predictor_columns) + 1), pc_values)
+# plt.xlabel("principal component number")
+# plt.ylabel("explained variance")
+# plt.show()
 
 df_pca = PCA.apply_pca(df_pca, predictor_columns, 3)
 # subset = df_pca[df_pca["set"] == 35]
@@ -124,16 +124,16 @@ df_freq = FreqAbs.abstract_frequency(df_freq, ["acc_y"], ws, fs)
 
 # Visualize results
 subset = df_freq[df_freq["set"] == 15]
-subset[["acc_y"]].plot()
-subset[
-    [
-        "acc_y_max_freq",
-        "acc_y_freq_weighted",
-        "acc_y_pse",
-        "acc_y_freq_1.429_Hz_ws_14",
-        "acc_y_freq_2.5_Hz_ws_14",
-    ]
-].plot()
+# subset[["acc_y"]].plot()
+# subset[
+#     [
+#         "acc_y_max_freq",
+#         "acc_y_freq_weighted",
+#         "acc_y_pse",
+#         "acc_y_freq_1.429_Hz_ws_14",
+#         "acc_y_freq_2.5_Hz_ws_14",
+#     ]
+# ].plot()
 df_freq_list = []
 for s in df_freq["set"].unique():
     subset = df_freq[df_freq["set"] == s].reset_index(drop=True).copy()
@@ -159,11 +159,11 @@ for k in k_values:
     kmeans = KMeans(n_clusters=k, n_init=20, random_state=0)
     cluster_labels = kmeans.fit_predict(subset)
     inertias.append(kmeans.inertia_)
-plt.figure(figsize=(10, 10))
-plt.plot(k_values, inertias)
-plt.xlabel("k")
-plt.ylabel("Sum of squared distances")
-plt.show()
+# plt.figure(figsize=(10, 10))
+# plt.plot(k_values, inertias)
+# plt.xlabel("k")
+# plt.ylabel("Sum of squared distances")
+# plt.show()
 
 kmeans = KMeans(n_clusters=5, n_init=2, random_state=0)
 subset = df_cluster[cluster_columns]
@@ -195,4 +195,4 @@ df_cluster["cluster"] = kmeans.fit_predict(subset)
 # --------------------------------------------------------------
 # Export dataset
 # --------------------------------------------------------------
-df_cluster.to_pickle("../../data/interim/1704.data_features_real.pkl")
+df_cluster.to_pickle("../../data/interim/2504.data_features_real.pkl")

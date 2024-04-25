@@ -130,27 +130,25 @@ class ClassificationAlgorithms:
                 learning_rate=learning_rate,
                 alpha=alpha,
             )
-            # Fit the model
-            nn.fit(
-                train_X,
-                train_y.values.ravel(),
-            )
 
-            if gridsearch and print_model_details:
-                print(nn.best_params_)
+        # Fit the model
+        nn.fit(
+            train_X,
+            train_y.values.ravel(),
+        )
+        if gridsearch and print_model_details:
+            print(nn.best_params_)
 
-            if gridsearch:
-                nn = nn.best_estimator_
+        if gridsearch:
+            nn = nn.best_estimator_
 
-            # Apply the model
-            pred_prob_training_y = nn.predict_proba(train_X)
-            pred_prob_test_y = nn.predict_proba(test_X)
-            pred_training_y = nn.predict(train_X)
-            pred_test_y = nn.predict(test_X)
-            frame_prob_training_y = pd.DataFrame(
-                pred_prob_training_y, columns=nn.classes_
-            )
-            frame_prob_test_y = pd.DataFrame(pred_prob_test_y, columns=nn.classes_)
+        # Apply the model
+        pred_prob_training_y = nn.predict_proba(train_X)
+        pred_prob_test_y = nn.predict_proba(test_X)
+        pred_training_y = nn.predict(train_X)
+        pred_test_y = nn.predict(test_X)
+        frame_prob_training_y = pd.DataFrame(pred_prob_training_y, columns=nn.classes_)
+        frame_prob_test_y = pd.DataFrame(pred_prob_test_y, columns=nn.classes_)
 
         return pred_training_y, pred_test_y, frame_prob_training_y, frame_prob_test_y
 

@@ -73,11 +73,11 @@ selected_features = [
         "acc_z_freq_0.0_Hz_ws_14",
         "acc_y_temp_mean_ws_5",
         "gyr_x_freq_1.071_Hz_ws_14",
-        "acc_r_freq_0.0_Hz_ws_14",
-        "acc_z_temp_std_ws_5",
-        "acc_y_freq_0.357_Hz_ws_14",
-        "acc_y_freq_0.714_Hz_ws_14",
-        "acc_r",
+        "gyr_z_max_freq",
+        "gyr_x_temp_mean_ws_5",
+        "acc_r_freq_weighted",
+        "acc_r_freq_0.714_Hz_ws_14",
+        "acc_x_freq_weighted",
     ]
 ]
 ordered_features = [
@@ -87,18 +87,18 @@ ordered_features = [
         "acc_z_freq_0.0_Hz_ws_14",
         "acc_y_temp_mean_ws_5",
         "gyr_x_freq_1.071_Hz_ws_14",
-        "acc_r_freq_0.0_Hz_ws_14",
-        "acc_z_temp_std_ws_5",
-        "acc_y_freq_0.357_Hz_ws_14",
-        "acc_y_freq_0.714_Hz_ws_14",
-        "acc_r",
+        "gyr_z_max_freq",
+        "gyr_x_temp_mean_ws_5",
+        "acc_r_freq_weighted",
+        "acc_r_freq_0.714_Hz_ws_14",
+        "acc_x_freq_weighted",
     ]
 ]
 ordered_scores = [
     [
         0.8876249569114099,
         0.9762150982419855,
-        0.9982764563943468,
+        0.9972423302309549,
         0.9996552912788693,
         1.0,
         1.0,
@@ -366,12 +366,13 @@ report = classification_report(y_test, class_test_y)
 print(report)
 
 
-new_data = pd.read_pickle("../../data/interim/1704.data_features_real.pkl")
+new_data = pd.read_pickle("../../data/interim/2204.data_features_real.pkl")
 
-train_data_df = df.drop(["set", "category"], axis=1)
+
+participant_df = df.drop(["set", "category"], axis=1)
 new_df = new_data.drop(["set", "category"], axis=1)
-X_train_1 = train_data_df.drop("label", axis=1)
-y_train_1 = train_data_df["label"]
+X_train_1 = participant_df[participant_df["participant"] != "A"].drop("label", axis=1)
+y_train_1 = participant_df[participant_df["participant"] != "A"]["label"]
 X_test_1 = new_df.drop("label", axis=1)
 y_test_1 = new_df["label"]
 
@@ -403,37 +404,3 @@ accuracy_1 = accuracy_score(y_test_1, class_test_y_1)
     X_train_1[feature_set_4], y_train_1, X_test_1[feature_set_4], gridsearch=True
 )
 accuracy_2 = accuracy_score(y_test_1, class_test_y_2)
-
-# epoch
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from sklearn.metrics import accuracy_score
-
-import numpy as np
-from sklearn.metrics import accuracy_score
-
-
-# Your existing code
-X_train_1 = train_data_df.drop(["label", "participant"], axis=1)
-y_train_1 = train_data_df["label"]
-X_test_1 = new_df.drop(["label", "participant"], axis=1)
-y_test_1 = new_df["label"]
-
-# Assuming you have defined feature_set_4 elsewhere
-epochs = 20  # Number of epochs
-(
-    class_train_y_1,
-    class_test_y_1,
-    class_train_prob_y_1,
-    class_test_prob_y_1,
-) = learner.feedforward_neural_network(
-    X_train_1[feature_set_4],
-    y_train_1,
-    X_test_1[feature_set_4],
-    epochs=epochs,
-    gridsearch=True,
-)
-
-accuracy_1 = accuracy_score(y_test_1, class_test_y_1)
-print(f"Accuracy after {epochs} epochs: {accuracy_1}")
