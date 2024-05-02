@@ -52,8 +52,8 @@ from datetime import timedelta
 # --------------------------------------------------------------
 # Turn into function
 # --------------------------------------------------------------
-files = glob("../../data/raw/dataraw/*.csv")
-data_path = "../../data/raw/dataraw\\"
+files = glob("../../data/raw/test/*.csv")
+data_path = "../../data/raw/test\\"
 
 
 def read_data_drom_files(files):
@@ -67,8 +67,8 @@ def read_data_drom_files(files):
 
     for i, f in enumerate(files):
         participant = f.split("-")[0].replace(data_path, "")
-        label = f.split("-")[1]
-        category = f.split("-")[2]
+        # label = f.split("-")[1]
+        # category = f.split("-")[2]
         time_create -= (i % 2 - 1) * delta_time  # Trừ đi 7 ngày sau mỗi 2 file
 
         # Tính thời gian delta
@@ -87,8 +87,8 @@ def read_data_drom_files(files):
         # Cộng timedelta với datetime_epoch
         df["epoch (ms)"] = df["Time (s)"].apply(add_epoch)
         df["participant"] = participant
-        df["label"] = label
-        df["category"] = category
+        # df["label"] = label
+        # df["category"] = category
         if "-acc" in f:
             df["set"] = acc_set
             acc_set += 1
@@ -121,19 +121,27 @@ acc_df, gyr_df = read_data_drom_files(files)
 # --------------------------------------------------------------
 
 data_merged = pd.concat([acc_df.iloc[:, :3], gyr_df], axis=1)
-column_mapping = {
-    "Acceleration x (m/s^2)": "acc_x",
-    "Acceleration y (m/s^2)": "acc_y",
-    "Acceleration z (m/s^2)": "acc_z",
-    "Gyroscope x (rad/s)": "gyr_x",
-    "Gyroscope y (rad/s)": "gyr_y",
-    "Gyroscope z (rad/s)": "gyr_z",
-    "participant": "participant",
-    "label": "label",
-    "category": "category",
-    "set": "set",
-}
-data_merged.rename(columns=column_mapping, inplace=True)
+column_mapping = [
+    "acc_x",
+    "acc_y",
+    "acc_z",
+    "gyr_x",
+    "gyr_y",
+    "gyr_z",
+    "participant",
+    "set",
+]
+
+# Lấy danh sách tên cột của DataFrame
+columns_df = list(data_merged.columns)
+
+# Thực hiện đổi tên cột bắt đầu từ cột thứ hai
+for i, new_name in enumerate(column_mapping):
+    if i < len(columns_df):
+        columns_df[i] = new_name
+
+# Cập nhật lại tên cột cho DataFrame
+data_merged.columns = columns_df
 
 # --------------------------------------------------------------
 # Resample data (frequency conversion)
@@ -146,8 +154,6 @@ sampling = {
     "gyr_y": "mean",
     "gyr_z": "mean",
     "participant": "last",
-    "label": "last",
-    "category": "last",
     "set": "last",
 }
 # data_merged.columns
@@ -168,6 +174,6 @@ data_resampled["set"] = data_resampled["set"].astype("int")
 # --------------------------------------------------------------
 # Export dataset
 # --------------------------------------------------------------
-data_resampled.to_pickle("../../data/interim/2504_data_real_processed.pkl")
+data_resampled.to_pickle("../../data/interim/squat_data_real_processed.pkl")
 
 # Lấy thời gian sửa đổi của tệp

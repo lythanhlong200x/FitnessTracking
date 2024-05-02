@@ -169,6 +169,7 @@ for i, f in zip(range(len(possible_feature_sets)), feature_names):
         }
     )
     score_df = pd.concat([score_df, new_scores])
+
 (
     class_train_y,
     class_test_y,
@@ -178,8 +179,7 @@ for i, f in zip(range(len(possible_feature_sets)), feature_names):
     X_train[feature_set_4], y_train, X_test[feature_set_4], gridsearch=True
 )
 accuracy = accuracy_score(y_test, class_test_y)
-classes = class_test_prob_y.columns
-cm = confusion_matrix(y_test, class_test_y, labels=classes)
+
 
 import joblib
 

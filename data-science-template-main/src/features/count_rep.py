@@ -18,7 +18,7 @@ plt.rcParams["lines.linewidth"] = 2
 # --------------------------------------------------------------
 # Load data
 # --------------------------------------------------------------
-df = pd.read_pickle("../../data/interim/trainingRealdata_data_real_processed.pkl")
+df = pd.read_pickle("../../data/interim/2604.data_with_predictions.pkl")
 df = df[df["label"] != "rest"]
 
 acc_r = df["acc_x"] ** 2 + df["acc_y"] ** 2 + df["acc_z"] ** 2
@@ -37,16 +37,6 @@ dead_df = df[df["label"] == "dead"]
 # --------------------------------------------------------------
 # Visualize data to identify patterns
 # --------------------------------------------------------------
-plot_df = squat_df
-plot_df[plot_df["set"] == plot_df["set"].unique()[0]]["acc_x"].plot()
-plot_df[plot_df["set"] == plot_df["set"].unique()[0]]["acc_y"].plot()
-plot_df[plot_df["set"] == plot_df["set"].unique()[0]]["acc_z"].plot()
-plot_df[plot_df["set"] == plot_df["set"].unique()[0]]["acc_r"].plot()
-
-plot_df[plot_df["set"] == plot_df["set"].unique()[0]]["gyr_x"].plot()
-plot_df[plot_df["set"] == plot_df["set"].unique()[0]]["gyr_y"].plot()
-plot_df[plot_df["set"] == plot_df["set"].unique()[0]]["gyr_z"].plot()
-plot_df[plot_df["set"] == plot_df["set"].unique()[0]]["gyr_r"].plot()
 # --------------------------------------------------------------
 # Configure LowPassFilter
 # --------------------------------------------------------------
@@ -55,31 +45,47 @@ LowPass = LowPassFilter()
 # --------------------------------------------------------------
 # Apply and tweak LowPassFilter
 # --------------------------------------------------------------
-# bench_set = bench_df[bench_df["set"] == bench_df["set"].unique()[0]]
-squat_set = squat_df[squat_df["set"] == squat_df["set"].unique()[0]]
-unique_values = row_df["set"].unique()
+bench_set = pd.DataFrame()  # Khởi tạo DataFrame rỗng
+squat_set = pd.DataFrame()  # Khởi tạo DataFrame rỗng
+row_set = pd.DataFrame()  # Khởi tạo DataFrame rỗng
+ohp_set = pd.DataFrame()  # Khởi tạo DataFrame rỗng
+dead_set = pd.DataFrame()  # Khởi tạo DataFrame rỗng
 
-# Kiểm tra xem có giá trị duy nhất nào tồn tại hay không
-if len(unique_values) > 0:
-    # Nếu có, lấy giá trị duy nhất đầu tiên
-    first_unique_value = unique_values[0]
+unique_values_bench = bench_df["set"].unique()
+unique_values_squat = squat_df["set"].unique()
+unique_values_row = row_df["set"].unique()
+unique_values_ohp = ohp_df["set"].unique()
+unique_values_dead = dead_df["set"].unique()
 
-    # Tạo điều kiện
-    condition = row_df["set"] == first_unique_value
+# Kiểm tra và lọc DataFrame bench
+if len(unique_values_bench) > 0:
+    first_unique_value_bench = unique_values_bench[0]
+    condition_bench = bench_df["set"] == first_unique_value_bench
+    bench_set = bench_df[condition_bench]
 
-    # Lọc DataFrame
-    row_set = row_df[condition]
-else:
-    # Nếu không có giá trị duy nhất nào tồn tại, gán DataFrame rỗng
-    row_set = pd.DataFrame()
-# ohp_set = ohp_df[ohp_df["set"] == ohp_df["set"].unique()[0]]
-# dead_set = dead_df[dead_df["set"] == dead_df["set"].unique()[0]]
+# Kiểm tra và lọc DataFrame squat
+if len(unique_values_squat) > 0:
+    first_unique_value_squat = unique_values_squat[0]
+    condition_squat = squat_df["set"] == first_unique_value_squat
+    squat_set = squat_df[condition_squat]
 
-squat_set["acc_r"].plot()
-column = "gyr_r"
-LowPass.low_pass_filter(
-    squat_set, col=column, sampling_frequency=fs, cutoff_frequency=0.4, order=10
-)[column + "_lowpass"].plot()
+# Kiểm tra và lọc DataFrame row
+if len(unique_values_row) > 0:
+    first_unique_value_row = unique_values_row[0]
+    condition_row = row_df["set"] == first_unique_value_row
+    row_set = row_df[condition_row]
+
+# Kiểm tra và lọc DataFrame ohp
+if len(unique_values_ohp) > 0:
+    first_unique_value_ohp = unique_values_ohp[0]
+    condition_ohp = ohp_df["set"] == first_unique_value_ohp
+    ohp_set = ohp_df[condition_ohp]
+
+# Kiểm tra và lọc DataFrame dead
+if len(unique_values_dead) > 0:
+    first_unique_value_dead = unique_values_dead[0]
+    condition_dead = dead_df["set"] == first_unique_value_dead
+    dead_set = dead_df[condition_dead]
 
 
 # --------------------------------------------------------------
@@ -96,41 +102,63 @@ def count_reps(dataset, cutoff=0.4, order=10, column="acc_r"):
     plt.plot(peaks[f"{column}_lowpass"], "o", color="red")
     ax.set_ylabel(f"{column}_lowpass")
     exercise = dataset["label"].iloc[0].title()
-    category = dataset["category"].iloc[0].title()
-    plt.title(f"{category}{exercise}:{len(peaks)}Reps")
+    plt.title(f"{exercise}:{len(peaks)}Reps")
     plt.show()
     return len(peaks)
 
 
-count_reps(bench_set, cutoff=0.4)
-count_reps(squat_set, cutoff=0.35)
-count_reps(row_set, cutoff=0.65, column="gyr_x")
-count_reps(ohp_set, cutoff=0.35)
-count_reps(dead_set, cutoff=0.4)
+# if not bench_set.empty:
+#     count_reps(bench_set, cutoff=0.4)
+
+# if not squat_set.empty:
+#     count_reps(squat_set, cutoff=0.25)
+
+# if not row_set.empty:
+#     count_reps(row_set, cutoff=0.65, column="gyr_x")
+
+# if not ohp_set.empty:
+#     count_reps(ohp_set, cutoff=0.35)
+
+# if not dead_set.empty:
+#     count_reps(dead_set, cutoff=0.4)
 # --------------------------------------------------------------
 # Create benchmark dataframe
 # --------------------------------------------------------------
-df["reps"] = df["category"].apply(lambda x: 5 if x == "heavy" else 10)
-rep_df = df.groupby(["label", "category", "set"])["reps"].max().reset_index()
+rep_df = df.groupby(["label", "set"]).size().reset_index(name="reps_pred")
 rep_df["reps_pred"] = 0
 
 for s in df["set"].unique():
     subset = df[df["set"] == s]
     column = "acc_r"
-    cutoff = 0.4
+    if subset["label"].iloc[0] == "bench":
+        cutoff = 0.35
     if subset["label"].iloc[0] == "squat":
-        cutoff = 0.35
+        cutoff = 0.25
     if subset["label"].iloc[0] == "row":
-        cutoff = 0.65
-        col = "gyr_x"
+        cutoff = 0.25
+        column = "gyr_x"
     if subset["label"].iloc[0] == "ohp":
-        cutoff = 0.35
+        cutoff = 0.25
+    if subset["label"].iloc[0] == "dead":
+        cutoff = 0.2
     reps = count_reps(subset, cutoff=cutoff, column=column)
     rep_df.loc[rep_df["set"] == s, "reps_pred"] = reps
 
-rep_df
+print(rep_df)
 # --------------------------------------------------------------
 # Evaluate the results
 # --------------------------------------------------------------
-error = mean_absolute_error(rep_df["reps"], rep_df["reps_pred"]).round(2)
-rep_df.groupby(["label", "category"])[["reps_pred"]].mean().plot.bar()
+
+# rep_df.groupby(["label", "category"])[["reps_pred"]].mean().plot.bar()
+summary_by_exercise = rep_df.groupby(["label"]).agg(
+    {"set": "count", "reps_pred": "sum"}
+)
+
+# Đổi tên cột để phản ánh ý nghĩa và đảo ngược thứ tự cột
+summary_by_exercise = summary_by_exercise.rename(
+    columns={"set": "total_sets", "reps_pred": "total_reps"}
+)
+
+# Hiển thị tổng số sets tập và tổng số reps cho mỗi loại bài tập
+print("Tổng số sets tập và tổng số reps cho mỗi loại bài tập:")
+print(summary_by_exercise)

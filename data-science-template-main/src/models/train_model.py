@@ -66,48 +66,48 @@ max_features = 10
 selected_features, ordered_features, ordered_scores = learner.forward_selection(
     max_features, X_train, y_train
 )
-selected_features = [
-    [
-        "pca_1",
-        "duration",
-        "acc_z_freq_0.0_Hz_ws_14",
-        "acc_y_temp_mean_ws_5",
-        "gyr_x_freq_1.071_Hz_ws_14",
-        "gyr_z_max_freq",
-        "gyr_x_temp_mean_ws_5",
-        "acc_r_freq_weighted",
-        "acc_r_freq_0.714_Hz_ws_14",
-        "acc_x_freq_weighted",
-    ]
-]
-ordered_features = [
-    [
-        "pca_1",
-        "duration",
-        "acc_z_freq_0.0_Hz_ws_14",
-        "acc_y_temp_mean_ws_5",
-        "gyr_x_freq_1.071_Hz_ws_14",
-        "gyr_z_max_freq",
-        "gyr_x_temp_mean_ws_5",
-        "acc_r_freq_weighted",
-        "acc_r_freq_0.714_Hz_ws_14",
-        "acc_x_freq_weighted",
-    ]
-]
-ordered_scores = [
-    [
-        0.8876249569114099,
-        0.9762150982419855,
-        0.9972423302309549,
-        0.9996552912788693,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-    ]
-]
+# selected_features = [
+#     [
+#         "pca_1",
+#         "duration",
+#         "acc_z_freq_0.0_Hz_ws_14",
+#         "acc_y_temp_mean_ws_5",
+#         "gyr_x_freq_1.071_Hz_ws_14",
+#         "gyr_z_max_freq",
+#         "gyr_x_temp_mean_ws_5",
+#         "acc_r_freq_weighted",
+#         "acc_r_freq_0.714_Hz_ws_14",
+#         "acc_x_freq_weighted",
+#     ]
+# ]
+# ordered_features = [
+#     [
+#         "pca_1",
+#         "duration",
+#         "acc_z_freq_0.0_Hz_ws_14",
+#         "acc_y_temp_mean_ws_5",
+#         "gyr_x_freq_1.071_Hz_ws_14",
+#         "gyr_z_max_freq",
+#         "gyr_x_temp_mean_ws_5",
+#         "acc_r_freq_weighted",
+#         "acc_r_freq_0.714_Hz_ws_14",
+#         "acc_x_freq_weighted",
+#     ]
+# ]
+# ordered_scores = [
+#     [
+#         0.8876249569114099,
+#         0.9762150982419855,
+#         0.9972423302309549,
+#         0.9996552912788693,
+#         1.0,
+#         1.0,
+#         1.0,
+#         1.0,
+#         1.0,
+#         1.0,
+#     ]
+# ]
 
 # plt.figure(figsize=(10, 5))
 # plt.plot(np.arange(1, max_features + 1, 1), ordered_scores)
@@ -366,7 +366,7 @@ report = classification_report(y_test, class_test_y)
 print(report)
 
 
-new_data = pd.read_pickle("../../data/interim/2204.data_features_real.pkl")
+new_data = pd.read_pickle("../../data/interim/2604.test.data_features_real.pkl")
 
 
 participant_df = df.drop(["set", "category"], axis=1)
