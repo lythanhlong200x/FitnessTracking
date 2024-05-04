@@ -74,11 +74,14 @@
 import streamlit as st
 import pandas as pd
 import joblib
+import json
+import requests
 from DataTransformation import LowPassFilter, PrincipalComponentAnalysis
 from TemporalAbstraction import NumericalAbstraction
 from FrequencyAbstraction import FourierTransformation
 from sklearn.cluster import KMeans
 from io import StringIO
+from streamlit_lottie import st_lottie
 from build_data import preprocess_data, perform_clustering
 from run_model import run_model_and_save_predictions
 from read_file import read_data_from_files, resample_and_save_data
@@ -93,34 +96,53 @@ from sklearn.metrics import accuracy_score
 st.set_page_config(page_title="Fitness Tracking Data Processing App", layout="wide")
 
 
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
+
+def load_lottiefile(filepath: str):
+    with open(filepath, "r") as f:
+        return json.load(f)
+
+    # Page title
+
+
+st.markdown(
+    """
+<style>
+.centered-title {
+    text-align: center;
+}
+    </style>
+""",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    '<h1 class="centered-title">Fitness Tracking Data Processing App</h1>',
+    unsafe_allow_html=True,
+)
+lottie_coding = load_lottiefile(
+    "./data-science-template-main/streamlit/images/fitness.json"
+)
+# st_lottie(lottie_coding)
+
+header_image = "./data-science-template-main/streamlit/images/exercises.jpg"
+# header_image = "../streamlit/images/exercises.jpg"
+
+# Đường dẫn đến hình ảnh header
+st.image(header_image, use_column_width=True)
+uploaded_files = st.file_uploader(
+    "Upload CSV files", type=["csv"], accept_multiple_files=True
+)
+
+
 # Main Streamlit function
 def main():
-    # Page title
-    st.markdown(
-        """
-    <style>
-    .centered-title {
-        text-align: center;
-    }
-        </style>
-""",
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        '<h1 class="centered-title">Fitness Tracking Data Processing App</h1>',
-        unsafe_allow_html=True,
-    )
-
-    header_image = "D:\\AI\\FitnessTracking\\FitnessTracking\\data-science-template-main\\streamlit\\images\\exercises.jpg"
-    # header_image = "../streamlit/images/exercises.jpg"
-
-    # Đường dẫn đến hình ảnh header
-    st.image(header_image, use_column_width=True)
 
     # Allow user to upload data file
-    uploaded_files = st.file_uploader(
-        "Upload CSV files", type=["csv"], accept_multiple_files=True
-    )
 
     if uploaded_files:
         acc_df, gyr_df = read_data_from_files(uploaded_files)
@@ -132,7 +154,9 @@ def main():
         #     "Select Section", ["View Data", "View Reps Count"]
         # )
         new_data, data_resample = view_data(acc_df, gyr_df)
-        page_selection = st.sidebar.selectbox("Go to", ["View Data", "View Reps Count"])
+        page_selection = st.sidebar.selectbox(
+            "Select Options", ["View Data", "View Reps Count"]
+        )
 
         if page_selection == "View Data":
             st.write("Resampling and saving processed data...")
@@ -165,10 +189,10 @@ def view_reps_count(new_data, data_resample):
 
     st.subheader("View Reps Count Section")
     loaded_model = joblib.load(
-        "D:\\AI\FitnessTracking\\FitnessTracking\\data-science-template-main\\streamlit\\custom_random_forest_model.pkl"
+        "./data-science-template-main/streamlit/custom_random_forest_model.pkl"
     )
     df_train = pd.read_pickle(
-        "D:\\AI\\FitnessTracking\\FitnessTracking\\data-science-template-main\\streamlit\\trainingRealdata.data_features_real.pkl"
+        "./data-science-template-main/streamlit/trainingRealdata.data_features_real.pkl"
     )
     data_reps = run_model_and_save_predictions(
         df_train, data_resample, new_data, loaded_model
