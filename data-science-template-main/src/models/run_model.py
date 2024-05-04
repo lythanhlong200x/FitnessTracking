@@ -32,12 +32,13 @@ feature_set_4 = list(set(feature_set_3 + freq_features + cluster_features))
 
 
 # Sử dụng mô hình để dự đoán dữ liệu mới
-new_data = pd.read_pickle("../../data/interim/squat.data_features_real.pkl")
+new_data = pd.read_pickle("../../data/interim/06.data_features_real.pkl")
 
 participant_df = df.drop(["set", "category"], axis=1)
 new_df = new_data.drop(["set"], axis=1)
 X_train_1 = participant_df.drop("label", axis=1)
 y_train_1 = participant_df["label"]
+y_test_1 = new_df["label"]
 X_test_1 = new_df
 
 X_train_1 = X_train_1.drop(["participant"], axis=1)
@@ -56,12 +57,12 @@ X_test_1 = X_test_1.drop(["participant"], axis=1)
 
 # Tính toán độ chính xác trên tập huấn luyện và tập kiểm tra
 train_accuracy = accuracy_score(y_train_1, pred_train_y)
-# test_accuracy = accuracy_score(y_test_1, pred_test_y)
+test_accuracy = accuracy_score(y_test_1, pred_test_y)
 
 print("Accuracy trên tập huấn luyện:", train_accuracy)
 print("Cột dự đoán: ", pred_test_y)
-# print("Accuracy trên tập kiểm tra:", test_accuracy)
-# report = classification_report(y_test_1, pred_test_y)
+print("Accuracy trên tập kiểm tra:", test_accuracy)
+report = classification_report(y_test_1, pred_test_y)
 
 
 predictions_df = pd.DataFrame({"set": new_data["set"], "label": pred_test_y})
@@ -88,4 +89,4 @@ label_map = new_data.set_index("set")["label"].to_dict()
 data_counting_reps["label"] = data_counting_reps["set"].map(label_map)
 
 # Lưu DataFrame data_counting_reps đã cập nhật thành file pickle
-data_counting_reps.to_pickle("../../data/interim/squat.data_with_predictions.pkl")
+# data_counting_reps.to_pickle("../../data/interim/squat.data_with_predictions.pkl")

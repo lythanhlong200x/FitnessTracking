@@ -175,5 +175,3 @@ data_resampled["set"] = data_resampled["set"].astype("int")
 # Export dataset
 # --------------------------------------------------------------
 data_resampled.to_pickle("../../data/interim/squat_data_real_processed.pkl")
-
-# Lấy thời gian sửa đổi của tệp

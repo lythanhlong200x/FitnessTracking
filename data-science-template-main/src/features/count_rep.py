@@ -124,7 +124,9 @@ def count_reps(dataset, cutoff=0.4, order=10, column="acc_r"):
 # --------------------------------------------------------------
 # Create benchmark dataframe
 # --------------------------------------------------------------
-rep_df = df.groupby(["label", "set"]).size().reset_index(name="reps_pred")
+rep_df = (
+    df.groupby(["participant", "label", "set"]).size().reset_index(name="reps_pred")
+)
 rep_df["reps_pred"] = 0
 
 for s in df["set"].unique():
