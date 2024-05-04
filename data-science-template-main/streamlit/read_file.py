@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import joblib
 from datetime import datetime
 from datetime import timedelta
 from DataTransformation import LowPassFilter, PrincipalComponentAnalysis
@@ -9,9 +8,6 @@ from FrequencyAbstraction import FourierTransformation
 from sklearn.cluster import KMeans
 from io import StringIO
 from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-import seaborn as sns
-import itertools
 
 
 # Function to read data from files

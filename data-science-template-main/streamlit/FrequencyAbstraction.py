@@ -1,14 +1,3 @@
-##############################################################
-#                                                            #
-#    Mark Hoogendoorn and Burkhardt Funk (2017)              #
-#    Machine Learning for the Quantified Self                #
-#    Springer                                                #
-#    Chapter 4                                               #
-#                                                            #
-##############################################################
-
-# Updated by Dave Ebbelaar on 06-01-2023
-
 import numpy as np
 
 

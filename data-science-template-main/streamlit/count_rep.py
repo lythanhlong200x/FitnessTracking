@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 from DataTransformation import LowPassFilter
 from scipy.signal import argrelextrema
-import matplotlib.pyplot as plt
 
 
 # Define function to count reps and evaluate results
