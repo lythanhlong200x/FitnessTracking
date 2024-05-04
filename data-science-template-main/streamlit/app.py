@@ -84,9 +84,6 @@ from run_model import run_model_and_save_predictions
 from read_file import read_data_from_files, resample_and_save_data
 from count_rep import count_reps_and_evaluate
 from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-import seaborn as sns
-import itertools
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.ensemble import RandomForestClassifier
