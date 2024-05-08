@@ -34,17 +34,29 @@ def read_data_from_files(files):
             return datetime_epoch + timedelta
 
         df["epoch (ms)"] = df["Time (s)"].apply(add_epoch)
+
         df["participant"] = participant
 
-        if "-acc" in uploaded_file.name:  # Sửa dòng này
+        if "acc" in uploaded_file.name.lower():  # Sửa dòng này
             df["set"] = acc_set
             acc_set += 1
             acc_df = pd.concat([acc_df, df])
-        if "-gyr" in uploaded_file.name:  # Sửa dòng này
+        if "gyr" in uploaded_file.name.lower():  # Sửa dòng này
             df["set"] = gyr_set
             gyr_set += 1
             gyr_df = pd.concat([gyr_df, df])
-
+        # if any(df.columns.str.contains("Acceleration")) or any(
+        #     df.columns.str.contains("rad/s")
+        # ):
+        #     df["set"] = acc_set
+        #     acc_set += 1
+        #     acc_df = pd.concat([acc_df, df])
+        # if any(df.columns.str.contains("Gyroscope")) or any(
+        #     df.columns.str.contains("g")
+        # ):
+        #     df["set"] = gyr_set
+        #     gyr_set += 1
+        #     gyr_df = pd.concat([gyr_df, df])
     acc_df.set_index("epoch (ms)", inplace=True)
     gyr_df.set_index("epoch (ms)", inplace=True)
 
@@ -67,9 +79,15 @@ def resample_and_save_data(acc_df, gyr_df):
         "participant",
         "set",
     ]
+    columns_df = list(data_merged.columns)
 
+    # Thực hiện đổi tên cột bắt đầu từ cột thứ hai
+    for i, new_name in enumerate(column_mapping):
+        if i < len(columns_df):
+            columns_df[i] = new_name
     # Rename columns
-    data_merged.columns = column_mapping
+    data_merged.columns = columns_df
+    # data_merged.columns = column_mapping
 
     # Resample data
     sampling = {

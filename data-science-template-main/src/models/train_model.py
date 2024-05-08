@@ -16,6 +16,7 @@ plt.rcParams["figure.dpi"] = 100
 plt.rcParams["lines.linewidth"] = 2
 
 df = pd.read_pickle("../../data/interim/03.data_features.pkl")
+# df = pd.read_pickle("../../data/interim/0605.data_features_real.pkl")
 
 # --------------------------------------------------------------
 # Create a training and test set
@@ -109,12 +110,12 @@ selected_features, ordered_features, ordered_scores = learner.forward_selection(
 #     ]
 # ]
 
-# plt.figure(figsize=(10, 5))
-# plt.plot(np.arange(1, max_features + 1, 1), ordered_scores)
-# plt.xlabel(["Number of features"])
-# plt.ylabel("Accuracy")
-# plt.xticks(np.arange(1, max_features + 1, 1))
-# plt.show()
+plt.figure(figsize=(10, 5))
+plt.plot(np.arange(1, max_features + 1, 1), ordered_scores)
+plt.xlabel(["Number of features"])
+plt.ylabel("Accuracy")
+plt.xticks(np.arange(1, max_features + 1, 1))
+plt.show()
 
 # --------------------------------------------------------------
 # Grid search for best hyperparameters and model selection
@@ -247,6 +248,7 @@ plt.show()
     X_train[feature_set_4], y_train, X_test[feature_set_4], gridsearch=True
 )
 accuracy = accuracy_score(y_test, class_test_y)
+accuracy
 classes = class_test_prob_y.columns
 cm = confusion_matrix(y_test, class_test_y, labels=classes)
 

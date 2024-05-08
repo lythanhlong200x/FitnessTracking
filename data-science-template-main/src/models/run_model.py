@@ -14,7 +14,8 @@ from sklearn.metrics import accuracy_score
 
 loaded_model = joblib.load("custom_random_forest_model.pkl")
 
-df = pd.read_pickle("../../data/interim/trainingRealdata.data_features_real.pkl")
+# df = pd.read_pickle("../../data/interim/trainingRealdata.data_features_real.pkl")
+df = pd.read_pickle("../../data/interim/0605.data_features_real.pkl")
 
 df_train = df.drop(["participant", "category", "set"], axis=1)
 basic_features = ["acc_x", "acc_y", "acc_z", "gyr_x", "gyr_y", "gyr_z"]
@@ -32,7 +33,7 @@ feature_set_4 = list(set(feature_set_3 + freq_features + cluster_features))
 
 
 # Sử dụng mô hình để dự đoán dữ liệu mới
-new_data = pd.read_pickle("../../data/interim/06.data_features_real.pkl")
+new_data = pd.read_pickle("../../data/interim/2604.test.data_features_real.pkl")
 
 participant_df = df.drop(["set", "category"], axis=1)
 new_df = new_data.drop(["set"], axis=1)

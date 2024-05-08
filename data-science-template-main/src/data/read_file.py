@@ -76,6 +76,7 @@ def read_data_drom_files(files):
         # # Chuyển đổi thời gian thành dạng datetime
         time_epoch = time_create.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
         df = pd.read_csv(f)
+
         datetime_epoch = datetime.strptime(time_epoch, "%Y-%m-%d %H:%M:%S.%f")
 
         def add_epoch(time_in_seconds):
@@ -174,4 +175,4 @@ data_resampled["set"] = data_resampled["set"].astype("int")
 # --------------------------------------------------------------
 # Export dataset
 # --------------------------------------------------------------
-data_resampled.to_pickle("../../data/interim/squat_data_real_processed.pkl")
+data_resampled.to_pickle("../../data/interim/blank_data_real_processed.pkl")

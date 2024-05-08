@@ -98,7 +98,6 @@ acc_df, gyr_df = read_data_drom_files(files)
 # --------------------------------------------------------------
 # Merging datasets
 # --------------------------------------------------------------
-
 data_merged = pd.concat([acc_df.iloc[:, :3], gyr_df], axis=1)
 column_mapping = {
     "x-axis (g)": "acc_x",
@@ -113,10 +112,6 @@ column_mapping = {
     "set": "set",
 }
 data_merged.rename(columns=column_mapping, inplace=True)
-
-# --------------------------------------------------------------
-# Resample data (frequency conversion)
-# --------------------------------------------------------------
 sampling = {
     "acc_x": "mean",
     "acc_y": "mean",
@@ -137,7 +132,6 @@ days = [g for n, g in data_merged.groupby(pd.Grouper(freq="D"))]
 data_resampled = pd.concat(
     [df.resample(rule="200ms").apply(sampling).dropna() for df in days]
 )
-
 # Accelerometer:    12.500HZ
 # Gyroscope:        25.000Hz
 data_resampled["set"] = data_resampled["set"].astype("int")
