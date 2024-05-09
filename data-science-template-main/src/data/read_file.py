@@ -52,8 +52,8 @@ from datetime import timedelta
 # --------------------------------------------------------------
 # Turn into function
 # --------------------------------------------------------------
-files = glob("../../data/raw/test/*.csv")
-data_path = "../../data/raw/test\\"
+files = glob("../../data/raw/Dataset/*.csv")
+data_path = "../../data/raw/Dataset\\"
 
 
 def read_data_drom_files(files):
@@ -67,7 +67,7 @@ def read_data_drom_files(files):
 
     for i, f in enumerate(files):
         participant = f.split("-")[0].replace(data_path, "")
-        # label = f.split("-")[1]
+        label = f.split("-")[1]
         # category = f.split("-")[2]
         time_create -= (i % 2 - 1) * delta_time  # Trừ đi 7 ngày sau mỗi 2 file
 
@@ -88,7 +88,7 @@ def read_data_drom_files(files):
         # Cộng timedelta với datetime_epoch
         df["epoch (ms)"] = df["Time (s)"].apply(add_epoch)
         df["participant"] = participant
-        # df["label"] = label
+        df["label"] = label
         # df["category"] = category
         if "-acc" in f:
             df["set"] = acc_set
@@ -130,6 +130,7 @@ column_mapping = [
     "gyr_y",
     "gyr_z",
     "participant",
+    "label",
     "set",
 ]
 
@@ -155,6 +156,7 @@ sampling = {
     "gyr_y": "mean",
     "gyr_z": "mean",
     "participant": "last",
+    "label": "last",
     "set": "last",
 }
 # data_merged.columns
@@ -175,4 +177,4 @@ data_resampled["set"] = data_resampled["set"].astype("int")
 # --------------------------------------------------------------
 # Export dataset
 # --------------------------------------------------------------
-data_resampled.to_pickle("../../data/interim/blank_data_real_processed.pkl")
+data_resampled.to_pickle("../../data/interim/Training_raw.pkl")

@@ -5,7 +5,7 @@ from FrequencyAbstraction import FourierTransformation
 from sklearn.cluster import KMeans
 
 # Load data
-df = pd.read_pickle("../../data/interim/0605_outliers_removed_chauvenets.pkl")
+df = pd.read_pickle("../../data/interim/training_outliers.pkl")
 predictor_columns = list(df.columns[:6])
 
 # Dealing with missing values (imputation)
@@ -69,4 +69,4 @@ subset = df_cluster[cluster_columns]
 df_cluster["cluster"] = kmeans.fit_predict(subset)
 df_cluster
 # Export dataset
-df_cluster.to_pickle("../../data/interim/0605.data_features_real.pkl")
+df_cluster.to_pickle("../../data/interim/TrainingData.pkl")

@@ -14,7 +14,7 @@ def run_model_and_save_predictions(df, data_counting_reps, new_data, loaded_mode
     # loaded_model = joblib.load("custom_random_forest_model.pkl")
     # df = pd.read_pickle("trainingRealdata.data_features_real.pkl")
 
-    df_train = df.drop(["participant", "category", "set"], axis=1)
+    df_train = df.drop(["participant", "set"], axis=1)
     basic_features = ["acc_x", "acc_y", "acc_z", "gyr_x", "gyr_y", "gyr_z"]
     square_feature = ["acc_r", "gyr_r"]
     pca_feature = ["pca_1", "pca_2", "pca_3"]
@@ -29,7 +29,7 @@ def run_model_and_save_predictions(df, data_counting_reps, new_data, loaded_mode
 
     # Sử dụng mô hình để dự đoán dữ liệu mới
 
-    participant_df = df.drop(["set", "category"], axis=1)
+    participant_df = df.drop(["set"], axis=1)
     new_df = new_data.drop(["set"], axis=1)
     X_train_1 = participant_df.drop("label", axis=1)
     y_train_1 = participant_df["label"]

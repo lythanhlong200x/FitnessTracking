@@ -54,14 +54,14 @@ def count_reps_and_evaluate(df):
         subset = df[df["set"] == s]
         column = "acc_r"
         if subset["label"].iloc[0] == "bench":
-            cutoff = 0.35
+            cutoff = 0.17
         if subset["label"].iloc[0] == "squat":
-            cutoff = 0.25
+            cutoff = 0.2
         if subset["label"].iloc[0] == "row":
-            cutoff = 0.25
+            cutoff = 0.2
             column = "gyr_x"
         if subset["label"].iloc[0] == "ohp":
-            cutoff = 0.25
+            cutoff = 0.2
         if subset["label"].iloc[0] == "dead":
             cutoff = 0.2
         reps = count_reps(subset, cutoff=cutoff, column=column)
@@ -70,12 +70,7 @@ def count_reps_and_evaluate(df):
     # --------------------------------------------------------------
     # Evaluate the results
     # --------------------------------------------------------------
-
-    # Summary by exercise
-    summary_by_exercise = rep_df.groupby(["participant", "label"]).agg(
-        {"set": "count", "reps_pred": "sum"}
-    )
-    summary_by_exercise = summary_by_exercise.rename(
+    rep_df = rep_df.rename(
         columns={
             "set": "Total Sets",
             "reps_pred": "Total Reps",
@@ -83,6 +78,18 @@ def count_reps_and_evaluate(df):
             "label": "Exercise",
         }
     )
+    # Summary by exercise
+    summary_by_exercise = rep_df.groupby(["Name", "Exercise"]).agg(
+        {"Total Sets": "count", "Total Reps": "sum"}
+    )
+    # summary_by_exercise = summary_by_exercise.rename(
+    #     columns={
+    #         "set": "Total Sets",
+    #         "reps_pred": "Total Reps",
+    #         "participant": "Name",
+    #         "label": "Exercise",
+    #     }
+    # )
     return summary_by_exercise
     # Display the total sets and reps for each exercise
     # print("Tổng số sets tập và tổng số reps cho mỗi loại bài tập:")

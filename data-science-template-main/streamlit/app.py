@@ -158,7 +158,7 @@ with st.expander("Hướng dẫn cách lấy dữ liệu gốc"):
     
     6. **Định dạng tệp tin**: Vui lòng đặt tên file theo cú pháp "Tên - Chú thích - Acc (với Gia tốc)/Gyr (với Con quay)" VD: Hoang-1-acc.
     
-    6. **Tải Lên Dữ Liệu**: Tải tệp CSV đã xuất lên ứng dụng này để xử lý.
+    6. **Tải Lên Dữ Liệu**: Tải tệp CSV đã xuất lên ứng dụng này để xử lý, bao gồm mỗi set gồm 2 file acceleration & gyroscope.
 """
 
 
@@ -176,12 +176,6 @@ def main():
     if uploaded_files:
         acc_df, gyr_df = read_data_from_files(uploaded_files)
         st.write("Processing uploaded files...")
-
-        # Process data from uploaded files
-
-        # tab_selection = st.sidebar.radio(
-        #     "Select Section", ["View Data", "View Reps Count"]
-        # )
         new_data, data_resample = view_data(acc_df, gyr_df)
         page_selection = st.sidebar.selectbox(
             "Select Options", ["View Data", "View Reps Count"]
@@ -221,7 +215,7 @@ def view_reps_count(new_data, data_resample):
         "./data-science-template-main/streamlit/custom_random_forest_model.pkl"
     )
     df_train = pd.read_pickle(
-        "./data-science-template-main/streamlit/trainingRealdata.data_features_real.pkl"
+        "./data-science-template-main/streamlit/TrainingData.pkl"
     )
     data_reps = run_model_and_save_predictions(
         df_train, data_resample, new_data, loaded_model
