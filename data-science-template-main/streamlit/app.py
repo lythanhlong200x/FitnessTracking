@@ -80,17 +80,29 @@ with st.expander("✨ Hướng dẫn cách lấy dữ liệu gốc"):
 
 
 
-uploaded_files = st.file_uploader(
-    "Upload CSV files", type=["csv"], accept_multiple_files=True
-)
 
 
+def display_sample_files():
+    st.subheader("Ví dụ về nội dung tệp mẫu:")
+    st.write("Tệp Acceleration:")
+    with open("./data-science-template-main/streamlit/example/A-bench-acc.csv", "r") as acc:  # Thay đổi đường dẫn đến tệp mẫu của bạn ở đây
+        df_acc_example=pd.read_csv(acc)
+        st.write(df_acc_example)
+
+    st.write("Tệp Gyroscope:")
+    with open("./data-science-template-main/streamlit/example/A-bench-gyr.csv", "r") as gyr:  # Thay đổi đường dẫn đến tệp mẫu của bạn ở đây
+        df_gyr_example=pd.read_csv(gyr)
+        st.write(df_gyr_example)
 # Main Streamlit function
 def main():
+    uploaded_files = st.file_uploader(
+    "Upload CSV files", type=["csv"], accept_multiple_files=True
+        )   
+    file_uploaded = False
 
     # Allow user to upload data file
-
     if uploaded_files:
+        file_uploaded = True
         acc_df, gyr_df = read_data_from_files(uploaded_files)
         st.write("Processing uploaded files...")
         new_data, data_resample = view_data(acc_df, gyr_df)
@@ -111,7 +123,9 @@ def main():
             st.write(new_data)
         elif page_selection == "View Reps Count":
             view_reps_count(new_data, data_resample)
-
+    if not file_uploaded:
+        display_sample_files()
+        
 
 def view_data(acc_df, gyr_df):
 
