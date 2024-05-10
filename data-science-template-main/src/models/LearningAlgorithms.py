@@ -35,7 +35,6 @@ class ClassificationAlgorithms:
         ordered_scores = []
         selected_features = []
         ca = ClassificationAlgorithms()
-        prev_best_perf = 0
 
         # Select the appropriate number of features.
         for i in range(0, max_features):
@@ -44,7 +43,6 @@ class ClassificationAlgorithms:
             # Determine the features left to select.
             features_left = list(set(X_train.columns) - set(selected_features))
             best_perf = 0
-            best_attribute = ""
 
             # For all features we can still select...
             for f in features_left:
@@ -72,7 +70,7 @@ class ClassificationAlgorithms:
                     best_feature = f
             # We select the feature with the best performance.
             selected_features.append(best_feature)
-            prev_best_perf = best_perf
+
             ordered_features.append(best_feature)
             ordered_scores.append(best_perf)
         return selected_features, ordered_features, ordered_scores

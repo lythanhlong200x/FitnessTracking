@@ -1,17 +1,6 @@
-##############################################################
-#                                                            #
-#    Mark Hoogendoorn and Burkhardt Funk (2017)              #
-#    Machine Learning for the Quantified Self                #
-#    Springer                                                #
-#    Chapter 3                                               #
-#                                                            #
-##############################################################
-
-
 from sklearn.decomposition import PCA
 from scipy.signal import butter, lfilter, filtfilt
 import copy
-import pandas as pd
 
 
 # This class removes the high frequency data (that might be considered noise) from the data.

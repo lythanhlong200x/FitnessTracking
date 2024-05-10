@@ -1,19 +1,6 @@
-##############################################################
-#                                                            #
-#    Mark Hoogendoorn and Burkhardt Funk (2017)              #
-#    Machine Learning for the Quantified Self                #
-#    Springer                                                #
-#    Chapter 4                                               #
-#                                                            #
-##############################################################
-
-# Updated by Dave Ebbelaar on 22-12-2022
-
 import numpy as np
-import scipy.stats as stats
 
 
-# Class to abstract a history of numerical values we can use as an attribute.
 class NumericalAbstraction:
 
     # This function aggregates a list of values using the specified aggregation

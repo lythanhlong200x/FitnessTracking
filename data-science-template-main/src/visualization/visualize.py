@@ -1,7 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-from IPython.display import display
 
 # --------------------------------------------------------------
 # Load data
@@ -11,8 +10,6 @@ df = pd.read_pickle("../../data/interim/01_data_processed.pkl")
 # --------------------------------------------------------------
 # Plot single columns
 # --------------------------------------------------------------
-set_df = df[df["set"] == 1]
-plt.plot(set_df["acgyr"].reset_index(drop=True))
 
 # --------------------------------------------------------------
 # Plot all exercises

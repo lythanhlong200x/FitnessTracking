@@ -1,16 +1,7 @@
 import joblib
 import pandas as pd
-import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-from LearningAlgorithms import ClassificationAlgorithms
-import seaborn as sns
-import itertools
-from sklearn.metrics import accuracy_score, confusion_matrix
-from sklearn.metrics import classification_report
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import classification_report
 
 loaded_model = joblib.load("custom_random_forest_model.pkl")
 
@@ -44,8 +35,6 @@ X_test_1 = new_df
 
 X_train_1 = X_train_1.drop(["participant"], axis=1)
 X_test_1 = X_test_1.drop(["participant"], axis=1)
-
-
 # Huấn luyện và dự đoán mô hình Random Forest
 (
     pred_train_y,

@@ -1,6 +1,5 @@
 import pandas as pd
 from glob import glob
-import os
 from datetime import datetime
 from datetime import timedelta
 

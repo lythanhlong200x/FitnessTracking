@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 from DataTransformation import LowPassFilter
 from scipy.signal import argrelextrema
 
@@ -15,12 +14,6 @@ def count_reps_and_evaluate(df):
     # --------------------------------------------------------------
     # Split data
     # --------------------------------------------------------------
-    bench_df = df[df["label"] == "bench"]
-    squat_df = df[df["label"] == "squat"]
-    row_df = df[df["label"] == "row"]
-    ohp_df = df[df["label"] == "ohp"]
-    dead_df = df[df["label"] == "dead"]
-
     # --------------------------------------------------------------
     # Configure LowPassFilter
     # --------------------------------------------------------------
@@ -61,7 +54,7 @@ def count_reps_and_evaluate(df):
             cutoff = 0.2
             column = "gyr_x"
         if subset["label"].iloc[0] == "ohp":
-            cutoff = 0.2
+            cutoff = 0.18
         if subset["label"].iloc[0] == "dead":
             cutoff = 0.2
         reps = count_reps(subset, cutoff=cutoff, column=column)
