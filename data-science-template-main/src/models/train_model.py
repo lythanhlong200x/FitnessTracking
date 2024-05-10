@@ -1,11 +1,12 @@
+import itertools
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-from LearningAlgorithms import ClassificationAlgorithms
-import matplotlib.pyplot as plt
 import seaborn as sns
-import itertools
+from LearningAlgorithms import ClassificationAlgorithms
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.model_selection import train_test_split
 
 # Plot settings
 plt.style.use("fivethirtyeight")

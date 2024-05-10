@@ -1,8 +1,8 @@
 import pandas as pd
 from DataTransformation import LowPassFilter, PrincipalComponentAnalysis
-from TemporalAbstraction import NumericalAbstraction
 from FrequencyAbstraction import FourierTransformation
 from sklearn.cluster import KMeans
+from TemporalAbstraction import NumericalAbstraction
 
 # Load data
 df = pd.read_pickle("../../data/interim/training_outliers.pkl")

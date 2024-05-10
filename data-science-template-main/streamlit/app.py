@@ -1,13 +1,13 @@
-import streamlit as st
-import pandas as pd
-import joblib
 import json
-import requests
-from build_data import preprocess_data, perform_clustering
-from run_model import run_model_and_save_predictions
-from read_file import read_data_from_files, resample_and_save_data
-from count_rep import count_reps_and_evaluate
 
+import joblib
+import pandas as pd
+import requests
+import streamlit as st
+from build_data import perform_clustering, preprocess_data
+from count_rep import count_reps_and_evaluate
+from read_file import read_data_from_files, resample_and_save_data
+from run_model import run_model_and_save_predictions
 
 # Set page title and layout
 st.set_page_config(page_title="Fitness Tracking Data Processing App", layout="wide")

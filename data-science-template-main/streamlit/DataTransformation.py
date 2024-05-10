@@ -1,6 +1,7 @@
-from sklearn.decomposition import PCA
-from scipy.signal import butter, lfilter, filtfilt
 import copy
+
+from scipy.signal import butter, filtfilt, lfilter
+from sklearn.decomposition import PCA
 
 
 # This class removes the high frequency data (that might be considered noise) from the data.

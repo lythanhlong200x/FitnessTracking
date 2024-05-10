@@ -1,8 +1,8 @@
 import pandas as pd
 from DataTransformation import LowPassFilter, PrincipalComponentAnalysis
-from TemporalAbstraction import NumericalAbstraction
 from FrequencyAbstraction import FourierTransformation
 from sklearn.cluster import KMeans
+from TemporalAbstraction import NumericalAbstraction
 
 
 def preprocess_data(df):

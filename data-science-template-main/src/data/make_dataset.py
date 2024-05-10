@@ -1,5 +1,6 @@
-import pandas as pd
 from glob import glob
+
+import pandas as pd
 
 files = glob("../../data/raw/MetaMotion/*.csv")
 data_path = "../../data/raw/MetaMotion\\"

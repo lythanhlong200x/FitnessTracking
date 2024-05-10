@@ -1,7 +1,6 @@
 import joblib
 import pandas as pd
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score, classification_report
 
 loaded_model = joblib.load("custom_random_forest_model.pkl")
 
