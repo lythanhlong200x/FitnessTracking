@@ -2,7 +2,6 @@ import pandas as pd
 from datetime import datetime
 from datetime import timedelta
 from io import StringIO
-from sklearn.model_selection import train_test_split
 
 
 # Function to read data from files
