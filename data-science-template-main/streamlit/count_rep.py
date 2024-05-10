@@ -46,6 +46,7 @@ def count_reps_and_evaluate(df):
     for s in df["set"].unique():
         subset = df[df["set"] == s]
         column = "acc_r"
+        cutoff = 0.2
         if subset["label"].iloc[0] == "bench":
             cutoff = 0.17
         if subset["label"].iloc[0] == "squat":

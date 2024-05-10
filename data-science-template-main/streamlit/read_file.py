@@ -17,7 +17,10 @@ def read_data_from_files(files):
     for i, uploaded_file in enumerate(files):
         content = uploaded_file.getvalue().decode("utf-8")
         df = pd.read_csv(StringIO(content))
-        participant = uploaded_file.name.split("-")[0]  # Sửa dòng này
+        if uploaded_file.name:
+            participant = uploaded_file.name.split("-")[0]
+        else:
+            participant = "Customer"
         time_create -= (i % 2 - 1) * delta_time
 
         time_epoch = time_create.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
@@ -31,26 +34,14 @@ def read_data_from_files(files):
 
         df["participant"] = participant
 
-        if "acc" in uploaded_file.name.lower():  # Sửa dòng này
+        if df.columns.str.contains("Acceleration").any():
             df["set"] = acc_set
             acc_set += 1
             acc_df = pd.concat([acc_df, df])
-        if "gyr" in uploaded_file.name.lower():  # Sửa dòng này
+        if df.columns.str.contains("Gyroscope").any():  # Sửa dòng này
             df["set"] = gyr_set
             gyr_set += 1
             gyr_df = pd.concat([gyr_df, df])
-        # if any(df.columns.str.contains("Acceleration")) or any(
-        #     df.columns.str.contains("rad/s")
-        # ):
-        #     df["set"] = acc_set
-        #     acc_set += 1
-        #     acc_df = pd.concat([acc_df, df])
-        # if any(df.columns.str.contains("Gyroscope")) or any(
-        #     df.columns.str.contains("g")
-        # ):
-        #     df["set"] = gyr_set
-        #     gyr_set += 1
-        #     gyr_df = pd.concat([gyr_df, df])
     acc_df.set_index("epoch (ms)", inplace=True)
     gyr_df.set_index("epoch (ms)", inplace=True)
 

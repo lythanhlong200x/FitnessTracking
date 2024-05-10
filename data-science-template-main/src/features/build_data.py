@@ -5,7 +5,7 @@ from sklearn.cluster import KMeans
 from TemporalAbstraction import NumericalAbstraction
 
 # Load data
-df = pd.read_pickle("../../data/interim/training_outliers.pkl")
+df = pd.read_pickle("../../data/interim/105_outliers.pkl")
 predictor_columns = list(df.columns[:6])
 
 # Dealing with missing values (imputation)
@@ -67,6 +67,6 @@ cluster_columns = ["acc_x", "acc_y", "acc_z"]
 kmeans = KMeans(n_clusters=5, n_init=2, random_state=0)
 subset = df_cluster[cluster_columns]
 df_cluster["cluster"] = kmeans.fit_predict(subset)
-df_cluster
+df_cluster["pca_3"]
 # Export dataset
-df_cluster.to_pickle("../../data/interim/TrainingData.pkl")
+df_cluster.to_pickle("../../data/interim/105_features.pkl")

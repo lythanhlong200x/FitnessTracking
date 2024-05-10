@@ -3,6 +3,7 @@ from sklearn.metrics import accuracy_score
 
 
 def run_model_and_save_predictions(df, data_counting_reps, new_data, loaded_model):
+
     df_train = df.drop(["participant", "set"], axis=1)
     basic_features = ["acc_x", "acc_y", "acc_z", "gyr_x", "gyr_y", "gyr_z"]
     square_feature = ["acc_r", "gyr_r"]

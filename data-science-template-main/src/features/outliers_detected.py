@@ -8,7 +8,7 @@ from sklearn.neighbors import LocalOutlierFactor  # pip install scikit-learn
 # --------------------------------------------------------------
 # Load data
 # --------------------------------------------------------------
-df = pd.read_pickle("../../data/interim/Training_raw.pkl")
+df = pd.read_pickle("../../data/interim/105.pkl")
 outlier_columns = list(df.columns[:6])
 
 
@@ -122,4 +122,4 @@ for col in outlier_columns:
 # Export new dataframe
 # --------------------------------------------------------------
 
-outliers_removed_df.to_pickle("../../data/interim/training_outliers.pkl")
+outliers_removed_df.to_pickle("../../data/interim/105.pkl")
